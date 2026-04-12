@@ -1,7 +1,7 @@
 'use client';
 
 import { CourseDropdown } from './course-dropdown';
-import { GrammarDropdown } from './grammar-dropdown';
+import { Grammar } from '../app/grammar/tense/page';
 
 export function Header() {
 
