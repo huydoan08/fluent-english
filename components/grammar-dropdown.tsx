@@ -1,0 +1,90 @@
+'use client';
+
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+
+export function GrammarDropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const grammarCategories = [
+    {
+      title: 'CẤU TRÚC CƠ BẢN',
+      items: [
+        'Danh từ và Mạo từ',
+        'Động từ và Thì',
+        'Tính từ và Trạng từ',
+        'Đại từ',
+      ],
+    },
+    {
+      title: 'CẤU TRÚC NÂNG CAO',
+      items: [
+        'Mệnh đề chính và Phụ mệnh đề',
+        'Cấu trúc Đảo ngữ',
+        'Cấu trúc Điều kiện',
+        'Thể Bị động',
+      ],
+    },
+    {
+      title: 'THÀNH PHẦN CÂU',
+      items: [
+        'Chủ ngữ và Vị ngữ',
+        'Tân ngữ và Trạng từ',
+        'Bổ ngữ',
+        'Thành phần phụ',
+      ],
+    },
+    {
+      title: 'HỖ TRỢ GIAO TIẾP',
+      items: [
+        'Giới từ',
+        'Liên từ',
+        'Interjection (Cảm thán từ)',
+        'Cẩm ngoại',
+      ],
+    },
+  ];
+
+  return (
+    <div className="relative group">
+      <button
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-[#2a5477] font-medium text-sm flex items-center gap-1 py-2"
+      >
+        Ngữ pháp
+        <ChevronDown size={16} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+          className="absolute top-full left-0 mt-0 w-[800px] bg-white border border-gray-200 shadow-lg rounded-sm p-6 z-50"
+        >
+          <div className="grid grid-cols-4 gap-6">
+            {grammarCategories.map((category) => (
+              <div key={category.title}>
+                <h3 className="text-[#2a5477] font-bold text-sm mb-3 pb-2 border-b-2 border-red-300">
+                  {category.title}
+                </h3>
+                <ul className="space-y-2">
+                  {category.items.map((item) => (
+                    <li key={item}>
+                      <a
+                        href="#"
+                        className="text-gray-700 text-sm hover:text-[#2a5477] transition-colors"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
