@@ -7,7 +7,7 @@ export function BreadcrumbNav() {
   const items = [
     { label: 'Trang chủ', href: '#' },
     { label: 'Ngữ Pháp', href: '#' },
-    { label: '12 THÌ TRONG TIẾNG ANH: CẤU TRÚC, DẤU HIỆU VÀ CÁCH DÙNG', href: '#' },
+    { label: '12 THÌ TRONG TIẾNG ANH: CẤU TRÚC, DẤU HIỆU VÀ CÁCH DÙNG', href: '/grammar' },
   ];
 
   return (

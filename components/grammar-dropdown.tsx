@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 
 export function GrammarDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,39 +11,12 @@ export function GrammarDropdown() {
     {
       title: 'CẤU TRÚC CƠ BẢN',
       items: [
-        'Danh từ và Mạo từ',
-        'Động từ và Thì',
-        'Tính từ và Trạng từ',
-        'Đại từ',
+        {
+          title: '12 thì cơ bản',
+          href: '/grammar/tense',
+        }
       ],
-    },
-    {
-      title: 'CẤU TRÚC NÂNG CAO',
-      items: [
-        'Mệnh đề chính và Phụ mệnh đề',
-        'Cấu trúc Đảo ngữ',
-        'Cấu trúc Điều kiện',
-        'Thể Bị động',
-      ],
-    },
-    {
-      title: 'THÀNH PHẦN CÂU',
-      items: [
-        'Chủ ngữ và Vị ngữ',
-        'Tân ngữ và Trạng từ',
-        'Bổ ngữ',
-        'Thành phần phụ',
-      ],
-    },
-    {
-      title: 'HỖ TRỢ GIAO TIẾP',
-      items: [
-        'Giới từ',
-        'Liên từ',
-        'Interjection (Cảm thán từ)',
-        'Cẩm ngoại',
-      ],
-    },
+    }
   ];
 
   return (
@@ -70,13 +44,13 @@ export function GrammarDropdown() {
                 </h3>
                 <ul className="space-y-2">
                   {category.items.map((item) => (
-                    <li key={item}>
-                      <a
-                        href="#"
+                    <li key={item.title}>
+                      <Link
+                        href={item.href}
                         className="text-gray-700 text-sm hover:text-[#2a5477] transition-colors"
                       >
-                        {item}
-                      </a>
+                        {item.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>

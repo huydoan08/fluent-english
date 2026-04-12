@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { CourseDropdown } from './course-dropdown';
-import { Grammar } from '../app/grammar/tense/page';
+import { GrammarDropdown } from './grammar-dropdown';
 
 export function Header() {
 
@@ -11,7 +12,9 @@ export function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-xl md:text-3xl font-bold text-[#2a5477]">Fluent-English</h1>
+            <Link href="/" className="text-2xl font-bold text-[#2a5477]">
+              <h1 className="text-xl md:text-3xl font-bold text-[#2a5477]">Fluent-English</h1>
+            </Link>
           </div>
 
           {/* Navigation - Desktop */}

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ChevronDown } from 'lucide-react';
 
-export function TenseDetails() {
+export default function TenseDetails() {
   const [expandedTense, setExpandedTense] = useState<string | null>(null);
 
   const tenses = [
