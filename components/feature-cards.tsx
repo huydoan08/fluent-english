@@ -3,8 +3,14 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Zap, Volume2, Headphones } from 'lucide-react';
+import {
+  Headphones,
+  FileText,
+  BarChart3,
+  Brain,
+} from 'lucide-react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface Feature {
   icon: React.ReactNode;
@@ -16,66 +22,113 @@ interface Feature {
 export function FeatureCards() {
   const features: Feature[] = [
     {
-      icon: <BookOpen className="w-12 h-12" />,
-      title: 'Free Lessons',
-      description: 'Practice Your Listening',
-      link: '#free-lessons',
+      icon: <Headphones className="w-10 h-10" />,
+      title: 'Listening Practice',
+      description: 'Practice TOEIC Part 1–4 with real audio',
+      link: '/listening/toiec',
     },
     {
-      icon: <Zap className="w-12 h-12" />,
-      title: 'AI Chatbot',
-      description: 'English Assistant Roleplay',
-      link: '#ai-chatbot',
+      icon: <FileText className="w-10 h-10" />,
+      title: 'Reading Practice',
+      description: 'Master Part 5–7 with real exam questions',
+      link: '/reading',
     },
     {
-      icon: <Volume2 className="w-12 h-12" />,
-      title: 'Three Minute English',
-      description: 'Learn New Words',
-      link: '#three-minute',
+      icon: <BarChart3 className="w-10 h-10" />,
+      title: 'Score Tracking',
+      description: 'Analyze your performance and improve',
+      link: '/dashboard',
     },
     {
-      icon: <Headphones className="w-12 h-12" />,
-      title: 'Shadowing',
-      description: 'Develop Your English Flow',
-      link: '#shadowing',
+      icon: <Brain className="w-10 h-10" />,
+      title: 'AI Explanations',
+      description: 'Understand answers with smart feedback',
+      link: '/ai',
     },
   ];
 
+  // animation variants
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="w-full py-12 md:py-20 bg-gray-50">
+    <div className="w-full py-16 md:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
-            Learning Methods
+
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            TOEIC Practice Features
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Choose from our variety of proven learning methods to improve your English skills
+            Everything you need to improve your TOEIC score efficiently
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {/* GRID */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
           {features.map((feature, index) => (
-            <Card
-              key={index}
-              className="bg-white p-6 md:p-8 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300 text-center"
-            >
-              <div className="flex justify-center text-blue-600 mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 text-sm md:text-base mb-6">
-                {feature.description}
-              </p>
-              <Link href={feature.link}>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 md:py-3">
-                  Learn More
-                </Button>
-              </Link>
-            </Card>
+            <motion.div key={index} variants={item}>
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
+                  y: -5,
+                }}
+                transition={{ type: 'spring', stiffness: 200 }}
+              >
+                <Card className="relative bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition overflow-hidden">
+
+                  {/* GLOW EFFECT */}
+                  <div className="absolute inset-0 opacity-0 hover:opacity-100 transition bg-gradient-to-br from-blue-500/10 to-transparent" />
+
+                  {/* ICON */}
+                  <div className="flex justify-center text-blue-600 mb-4">
+                    {feature.icon}
+                  </div>
+
+                  {/* TITLE */}
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 text-center">
+                    {feature.title}
+                  </h3>
+
+                  {/* DESC */}
+                  <p className="text-gray-600 text-sm md:text-base mb-6 text-center">
+                    {feature.description}
+                  </p>
+
+                  {/* BUTTON */}
+                  <Link href={feature.link}>
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 md:py-3">
+                      Start Practice
+                    </Button>
+                  </Link>
+                </Card>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
