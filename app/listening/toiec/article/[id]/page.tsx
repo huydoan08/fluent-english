@@ -8,48 +8,71 @@ import {
   ChevronLeft,
   Eye,
   EyeOff,
+  RotateCcw,
 } from 'lucide-react';
 import Link from 'next/link';
+import { questions } from '../../../../../resource/question';
 
-type Question = {
-  id: string;
-  audio: string;
-  question: string;
-  options: string[];
+type Result = {
+  questionId: string;
+  selected: string;
   correct: string;
-  explanation: string;
-  transcript: string;
-};
-
-const data: Question = {
-  id: 'q1',
-  audio: '/toeic/part4-01.mp3',
-  question: 'What is the main purpose of the call?',
-  options: [
-    'To report an issue',
-    'To request information',
-    'To confirm a booking',
-    'To cancel an order',
-  ],
-  correct: 'To report an issue',
-  explanation:
-    'The caller mentions problems with the expense report and asks for correction.',
-  transcript: `Hello, Mr. Watson. This is Jim Taylor from Accounting. I’m calling regarding the travel expense report you turned in yesterday...`,
+  isCorrect: boolean;
 };
 
 export default function TOEICListeningPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const [index, setIndex] = useState(0);
+  const current = questions[index];
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  const [volume, setVolume] = useState(1);
+  const [isRepeat, setIsRepeat] = useState(false);
+
   const [selected, setSelected] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   const [showTranscript, setShowTranscript] = useState(false);
 
-  // ▶️ Play / Pause
+  // 🧠 STATE lưu tất cả đáp án
+  const [answers, setAnswers] = useState<Record<string, Result>>({});
+
+  // 🔊 volume
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // 🔁 load state khi đổi câu
+  useEffect(() => {
+    const found = answers[current.id];
+
+    if (found) {
+      setSelected(found.selected);
+      setIsSubmitted(true);
+      setShowTranscript(true);
+    } else {
+      setSelected(null);
+      setIsSubmitted(false);
+      setShowTranscript(false);
+    }
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+
+      setTimeout(() => {
+        audioRef.current?.play();
+        setIsPlaying(true);
+      }, 300);
+    }
+  }, [index, answers]);
+
+  // ▶️ play/pause
   const handlePlay = async () => {
     if (!audioRef.current) return;
 
@@ -62,7 +85,16 @@ export default function TOEICListeningPage() {
     }
   };
 
-  // ⏱ time update
+  // 🔁 replay
+  const handleReplay = () => {
+    if (!audioRef.current) return;
+
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+    setIsPlaying(true);
+  };
+
+  // ⏱
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
     setProgress(audioRef.current.currentTime);
@@ -74,10 +106,14 @@ export default function TOEICListeningPage() {
   };
 
   const handleEnded = () => {
-    setIsPlaying(false);
+    if (isRepeat && audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    } else {
+      setIsPlaying(false);
+    }
   };
 
-  // 📊 format time
   const formatTime = (t: number) => {
     if (!t) return '0:00';
     const m = Math.floor(t / 60);
@@ -87,14 +123,7 @@ export default function TOEICListeningPage() {
     return `${m}:${s}`;
   };
 
-  // ✅ Submit
-  const handleSubmit = () => {
-    if (!selected) return;
-    setIsSubmitted(true);
-    setShowTranscript(true);
-  };
-
-  // 🔁 Seek
+  // 📊 seek
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!audioRef.current) return;
 
@@ -106,12 +135,32 @@ export default function TOEICListeningPage() {
     setProgress(newTime);
   };
 
+  // ✅ submit → lưu vào state
+  const handleSubmit = () => {
+    if (!selected) return;
+
+    const result: Result = {
+      questionId: current.id,
+      selected,
+      correct: current.correct,
+      isCorrect: selected === current.correct,
+    };
+
+    setAnswers((prev) => ({
+      ...prev,
+      [current.id]: result,
+    }));
+
+    setIsSubmitted(true);
+    setShowTranscript(true);
+  };
+
   return (
     <main className="min-h-screen bg-gray-50">
       {/* HEADER */}
       <div className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-6 py-4">
-          <Link href="/" className="flex items-center gap-2 text-gray-600">
+          <Link href="/listening/toiec" className="flex items-center gap-2 text-gray-600">
             <ChevronLeft />
             Back
           </Link>
@@ -119,31 +168,62 @@ export default function TOEICListeningPage() {
       </div>
 
       <div className="max-w-3xl mx-auto px-6 py-10 space-y-6">
-        {/* AUDIO PLAYER */}
+        {/* AUDIO */}
         <div className="bg-white rounded-2xl shadow p-6 space-y-4">
           <audio
             ref={audioRef}
-            src={data.audio}
+            src={current.audio}
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
           />
 
-          <button
-            onClick={handlePlay}
-            className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center"
-          >
-            {isPlaying ? <Pause /> : <Play />}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handlePlay}
+              className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center"
+            >
+              {isPlaying ? <Pause /> : <Play />}
+            </button>
 
+            <button
+              onClick={handleReplay}
+              className="px-3 py-1 bg-gray-200 rounded flex items-center gap-1"
+            >
+              <RotateCcw size={16} /> Replay
+            </button>
+
+            <button
+              onClick={() => setIsRepeat(!isRepeat)}
+              className={`px-3 py-1 rounded ${
+                isRepeat ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              }`}
+            >
+              Repeat
+            </button>
+
+            {/* volume */}
+            <div className="flex items-center gap-2">
+              <Volume2 />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                className="w-32 cursor-pointer accent-blue-500 hover:accent-blue-600"
+              />
+            </div>
+          </div>
+
+          {/* progress */}
           <div onClick={handleSeek} className="cursor-pointer">
             <div className="h-2 bg-gray-200 rounded overflow-hidden">
               <div
                 className="h-full bg-blue-500"
                 style={{
-                  width: `${
-                    duration ? (progress / duration) * 100 : 0
-                  }%`,
+                  width: `${duration ? (progress / duration) * 100 : 0}%`,
                 }}
               />
             </div>
@@ -153,40 +233,38 @@ export default function TOEICListeningPage() {
               <span>{formatTime(duration)}</span>
             </div>
           </div>
-
-          <Volume2 className="w-5 h-5 text-gray-600" />
         </div>
 
         {/* QUESTION */}
         <div className="bg-white rounded-2xl shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold">{data.question}</h2>
+          <h2 className="text-lg font-semibold">{current.question}</h2>
 
-          <div className="space-y-3">
-            {data.options.map((opt) => {
-              const isCorrect = opt === data.correct;
-              const isSelected = opt === selected;
+          {current.options.map((opt) => {
+            const isCorrect = opt === current.correct;
+            const isSelected = opt === selected;
 
-              return (
-                <div
-                  key={opt}
-                  onClick={() => !isSubmitted && setSelected(opt)}
-                  className={`p-3 border rounded cursor-pointer transition
-                    ${
-                      isSubmitted
-                        ? isCorrect
-                          ? 'bg-green-100 border-green-500'
-                          : isSelected
-                          ? 'bg-red-100 border-red-500'
-                          : ''
-                        : 'hover:bg-gray-100'
-                    }
-                  `}
-                >
-                  {opt}
-                </div>
-              );
-            })}
-          </div>
+            return (
+              <div
+                key={opt}
+                onClick={() => !isSubmitted && setSelected(opt)}
+                className={`p-3 border rounded cursor-pointer transition
+                  ${
+                    isSubmitted
+                      ? isCorrect
+                        ? 'bg-green-100 border-green-500'
+                        : isSelected
+                        ? 'bg-red-100 border-red-500'
+                        : ''
+                      : isSelected
+                      ? 'bg-blue-100 border-blue-500'
+                      : 'hover:bg-gray-100'
+                  }
+                `}
+              >
+                {opt}
+              </div>
+            );
+          })}
 
           {!isSubmitted && (
             <button
@@ -200,11 +278,11 @@ export default function TOEICListeningPage() {
 
         {/* RESULT */}
         {isSubmitted && (
-          <div className="bg-white rounded-2xl shadow p-6 space-y-3">
+          <div className="bg-white rounded-2xl shadow p-6">
             <p className="font-semibold text-green-600">
-              ✅ Correct Answer: {data.correct}
+              Correct: {current.correct}
             </p>
-            <p className="text-gray-700">{data.explanation}</p>
+            <p>{current.explanation}</p>
           </div>
         )}
 
@@ -215,18 +293,26 @@ export default function TOEICListeningPage() {
             className="flex items-center gap-2 text-blue-600"
           >
             {showTranscript ? <EyeOff /> : <Eye />}
-            {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
+            Toggle Transcript
           </button>
 
-          <div
-            className={`transition-all duration-500 overflow-hidden ${
-              showTranscript ? 'max-h-[1000px] mt-4' : 'max-h-0'
-            }`}
+          {showTranscript && (
+            <p className="mt-4 text-gray-700">{current.transcript}</p>
+          )}
+        </div>
+
+        {/* NAVIGATION */}
+        <div className="flex justify-between">
+          <button disabled={index === 0} onClick={() => setIndex((i) => i - 1)}>
+            Prev
+          </button>
+
+          <button
+            disabled={index === questions.length - 1}
+            onClick={() => setIndex((i) => i + 1)}
           >
-            <p className="text-gray-700 leading-relaxed">
-              {data.transcript}
-            </p>
-          </div>
+            Next
+          </button>
         </div>
       </div>
     </main>

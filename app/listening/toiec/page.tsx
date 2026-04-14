@@ -3,56 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, Headphones, CheckCircle } from 'lucide-react';
-
-interface Lesson {
-  id: string;
-  number: number;
-  title: string;
-  description: string;
-  image: string;
-  duration: string;
-  questions: number;
-  completed?: boolean;
-}
-
-const lessons: Lesson[] = [
-  {
-    id: '632',
-    number: 632,
-    title: 'Telephone Message - Expense Report',
-    description:
-      'Listen to a conversation about a travel expense report and answer the questions.',
-    image:
-      'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=200&h=160&fit=crop',
-    duration: '1:10',
-    questions: 3,
-    completed: false,
-  },
-  {
-    id: '631',
-    number: 631,
-    title: 'Business Discussion - Amazon Project',
-    description:
-      'A discussion about environmental issues and business decisions.',
-    image:
-      'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=200&h=160&fit=crop',
-    duration: '1:25',
-    questions: 3,
-    completed: true,
-  },
-  {
-    id: '630',
-    number: 630,
-    title: 'Personal Story - Lost Ring',
-    description:
-      'A story about persistence and finding a lost valuable item.',
-    image:
-      'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=160&fit=crop',
-    duration: '1:05',
-    questions: 3,
-    completed: false,
-  },
-];
+import { lessons } from '../../../resource/lesson';
 
 export default function TOEICListeningList() {
   return (
