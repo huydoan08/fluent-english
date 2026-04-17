@@ -1,15 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import {
-  Play,
-  Pause,
-  Volume2,
-  ChevronLeft,
-  Eye,
-  EyeOff,
-  RotateCcw,
-} from 'lucide-react';
+import { Play, Pause, Volume2, ChevronLeft, Eye, EyeOff, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
 import { questions } from '../../../../../resource/question';
 
@@ -23,6 +15,8 @@ type Result = {
 export default function TOEICListeningPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const TOTAL_QUESTIONS = 10;
+
   const [index, setIndex] = useState(0);
   const current = questions[index];
 
@@ -34,11 +28,17 @@ export default function TOEICListeningPage() {
   const [isRepeat, setIsRepeat] = useState(false);
 
   const [selected, setSelected] = useState<string | null>(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false); // dùng để đổi style hiển thị
   const [showTranscript, setShowTranscript] = useState(false);
 
-  // 🧠 STATE lưu tất cả đáp án
+  // 🧠 STATE lưu đáp án theo questionId
   const [answers, setAnswers] = useState<Record<string, Result>>({});
+
+  // 🪟 Modal kết quả
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+
+  const isLastQuestion = index === questions.length - 1;
 
   // 🔊 volume
   useEffect(() => {
@@ -53,8 +53,8 @@ export default function TOEICListeningPage() {
 
     if (found) {
       setSelected(found.selected);
-      setIsSubmitted(true);
-      setShowTranscript(true);
+      setIsSubmitted(false); // submit thật sự chỉ ở cuối, nên không dùng trạng thái "submitted" cho từng câu
+      setShowTranscript(true); // tuỳ bạn, có thể giữ false nếu muốn
     } else {
       setSelected(null);
       setIsSubmitted(false);
@@ -70,7 +70,7 @@ export default function TOEICListeningPage() {
         setIsPlaying(true);
       }, 300);
     }
-  }, [index, answers]);
+  }, [index, answers, current.id]);
 
   // ▶️ play/pause
   const handlePlay = async () => {
@@ -135,24 +135,39 @@ export default function TOEICListeningPage() {
     setProgress(newTime);
   };
 
-  // ✅ submit → lưu vào state
-  const handleSubmit = () => {
-    if (!selected) return;
+  // ✅ Khi user chọn đáp án -> lưu vào answers ngay
+  const handleSelectOption = (opt: string) => {
+    setSelected(opt);
 
     const result: Result = {
       questionId: current.id,
-      selected,
+      selected: opt,
       correct: current.correct,
-      isCorrect: selected === current.correct,
+      isCorrect: opt === current.correct,
     };
 
     setAnswers((prev) => ({
       ...prev,
       [current.id]: result,
     }));
+  };
 
-    setIsSubmitted(true);
-    setShowTranscript(true);
+  // ✅ Submit ở câu cuối -> tính điểm và mở modal
+  const handleFinalSubmit = () => {
+    // đảm bảo đã trả lời đủ 10 câu (tuỳ bạn, có thể bỏ check)
+    setShowResultModal(true)
+    const answeredCount = Object.keys(answers).length;
+
+    if (answeredCount < TOTAL_QUESTIONS) {
+      // không dùng alert theo requirement không nói; bạn có thể đổi UI báo lỗi nếu muốn
+      // Nếu muốn tối giản: chỉ return
+      return;
+    }
+
+    const computedCorrectCount = Object.values(answers).filter((a) => a.isCorrect).length;
+
+    setCorrectCount(computedCorrectCount);
+    setShowResultModal(true);
   };
 
   return (
@@ -181,22 +196,22 @@ export default function TOEICListeningPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={handlePlay}
-              className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center"
+              className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition"
             >
               {isPlaying ? <Pause /> : <Play />}
             </button>
 
             <button
               onClick={handleReplay}
-              className="px-3 py-1 bg-gray-200 rounded flex items-center gap-1"
+              className="px-3 py-1 bg-gray-200 rounded flex items-center gap-1 hover:bg-gray-300 transition"
             >
               <RotateCcw size={16} /> Replay
             </button>
 
             <button
               onClick={() => setIsRepeat(!isRepeat)}
-              className={`px-3 py-1 rounded ${
-                isRepeat ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              className={`px-3 py-1 rounded transition ${
+                isRepeat ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
               }`}
             >
               Repeat
@@ -246,75 +261,111 @@ export default function TOEICListeningPage() {
             return (
               <div
                 key={opt}
-                onClick={() => !isSubmitted && setSelected(opt)}
+                onClick={() => handleSelectOption(opt)}
                 className={`p-3 border rounded cursor-pointer transition
                   ${
-                    isSubmitted
-                      ? isCorrect
-                        ? 'bg-green-100 border-green-500'
-                        : isSelected
-                        ? 'bg-red-100 border-red-500'
-                        : ''
-                      : isSelected
+                    isSelected
                       ? 'bg-blue-100 border-blue-500'
                       : 'hover:bg-gray-100'
                   }
                 `}
               >
                 {opt}
+                {/* Nếu bạn muốn show đúng/sai sau khi modal hiện, có thể thêm UI tại đây */}
+                {/* Hiện tại chỉ highlight theo selection */}
+                {isSelected && showResultModal && isCorrect && (
+                  <span className="ml-2 text-green-600 font-semibold">✓</span>
+                )}
               </div>
             );
           })}
-
-          {!isSubmitted && (
-            <button
-              onClick={handleSubmit}
-              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
-            >
-              Submit
-            </button>
-          )}
         </div>
-
-        {/* RESULT */}
-        {isSubmitted && (
-          <div className="bg-white rounded-2xl shadow p-6">
-            <p className="font-semibold text-green-600">
-              Correct: {current.correct}
-            </p>
-            <p>{current.explanation}</p>
-          </div>
-        )}
 
         {/* TRANSCRIPT */}
         <div className="bg-white rounded-2xl shadow p-6">
           <button
             onClick={() => setShowTranscript(!showTranscript)}
-            className="flex items-center gap-2 text-blue-600"
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition"
           >
             {showTranscript ? <EyeOff /> : <Eye />}
             Toggle Transcript
           </button>
 
-          {showTranscript && (
-            <p className="mt-4 text-gray-700">{current.transcript}</p>
+          {showTranscript && <p className="mt-4 text-gray-700">{current.transcript}</p>}
+        </div>
+
+        {/* NAVIGATION + submit cuối */}
+        <div className="flex flex-col gap-3">
+          <div className="flex justify-between">
+            {/* Prev */}
+            <button
+              disabled={index === 0}
+              onClick={() => setIndex((i) => i - 1)}
+              className={`px-4 py-2 rounded font-medium transition border ${
+                index === 0
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-200'
+              }`}
+            >
+              Prev
+            </button>
+
+            {/* Next */}
+            <button
+              disabled={index === questions.length - 1}
+              onClick={() => setIndex((i) => i + 1)}
+              className={`px-4 py-2 rounded font-medium transition border ${
+                index === questions.length - 1
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
+                  : 'bg-blue-600 text-white hover:bg-blue-700 border-blue-600'
+              }`}
+            >
+              Next
+            </button>
+          </div>
+
+          {/* Submit ở câu cuối */}
+          {isLastQuestion && (
+            <button
+              onClick={handleFinalSubmit}
+              className="w-full mt-2 bg-green-600 text-white px-4 py-3 rounded-xl font-semibold hover:bg-green-700 transition"
+            >
+              Submit (View score)
+            </button>
           )}
         </div>
-
-        {/* NAVIGATION */}
-        <div className="flex justify-between">
-          <button disabled={index === 0} onClick={() => setIndex((i) => i - 1)}>
-            Prev
-          </button>
-
-          <button
-            disabled={index === questions.length - 1}
-            onClick={() => setIndex((i) => i + 1)}
-          >
-            Next
-          </button>
-        </div>
       </div>
+
+      {/* MODAL KẾT QUẢ */}
+      {showResultModal && (
+        <div
+          className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+          onClick={() => setShowResultModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold">Kết quả bài làm</h3>
+
+            <div className="mt-4 text-center">
+              <div className="text-4xl font-bold text-blue-600">
+                {correctCount}/{TOTAL_QUESTIONS}
+              </div>
+              <div className="mt-2 text-gray-600">
+                Bạn đã trả lời đúng {correctCount} câu trên {TOTAL_QUESTIONS} câu.
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowResultModal(false)}
+              className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

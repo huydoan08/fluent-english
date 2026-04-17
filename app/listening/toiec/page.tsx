@@ -13,7 +13,7 @@ export default function TOEICListeningList() {
         {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
-            TOEIC Listening - Part 4
+            TOEIC Listening Practice
           </h1>
           <p className="text-gray-600 mt-2">
             Practice short talks and answer questions like the real TOEIC test.
@@ -69,27 +69,6 @@ export default function TOEICListeningList() {
                   <p className="text-gray-600 mt-1 line-clamp-2">
                     {lesson.description}
                   </p>
-
-                  {/* META */}
-                  <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
-                    <div className="flex items-center gap-1">
-                      <Headphones className="w-4 h-4" />
-                      {lesson.duration}
-                    </div>
-
-                    <span>{lesson.questions} questions</span>
-                  </div>
-                </div>
-
-                {/* STATUS */}
-                <div className="flex items-center">
-                  {lesson.completed ? (
-                    <CheckCircle className="text-green-500 w-6 h-6" />
-                  ) : (
-                    <span className="text-xs text-gray-400">
-                      Not started
-                    </span>
-                  )}
                 </div>
               </article>
             </Link>
