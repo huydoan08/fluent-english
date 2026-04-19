@@ -1,27 +1,27 @@
 'use client';
 
 import Link from 'next/link';
-import { CourseDropdown } from './course-dropdown';
-import { GrammarDropdown } from './grammar-dropdown';
 
 export function Header() {
-
   return (
     <header className="w-full border-b border-gray-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-2xl font-bold text-[#2a5477]">
-              <h1 className="text-xl md:text-3xl font-bold text-[#2a5477]">Fluent-English</h1>
-            </Link>
-          </div>
 
-          {/* Navigation - Desktop */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-8 flex-1 ml-6 xl:ml-12">
-            <CourseDropdown />
-            <GrammarDropdown />
-          </nav>
+        {/* Top row */}
+        <div className="flex items-center h-16 md:h-20">
+          {/* Logo */}
+          <Link href="/" className="text-xl md:text-2xl font-bold text-[#2a5477]">
+            logo
+          </Link>
+
+          {/* Menu */}
+          <div className="hidden lg:flex flex-col ml-8 w-full">
+            <div className="flex flex-wrap items-center gap-6 text-[15px] text-gray-700 hover:text-[#1e73be">
+              <Link href="/uyen-thi-thu-ielts">Luyện thi IELTS</Link>
+              <Link href="/luyen-thi-thu-toeic">Luyện thi TOEIC</Link>
+            </div>
+
+          </div>
         </div>
       </div>
     </header>
