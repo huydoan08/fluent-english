@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ChevronDown, Clock, ListChecks, Users, Star } from 'lucide-react';
 import Link from 'next/link';
+import StartButton from '@/components/ui/start-button';
 
 type Exam = {
   id: string;
@@ -320,13 +321,7 @@ export default function ToeicExamListUI() {
                     </span>
                   </div>
                 </div>
-
-                <button
-                  type="button"
-                  className="mt-5 w-full rounded-xl bg-[#159FDB] text-white font-extrabold py-3 hover:bg-[#0B8CC7] transition-colors shadow-sm"
-                >
-                 <Link href={`/luyen-thi-thu-toeic/article/${e.id}`}>Bắt đầu làm bài</Link>
-                </button>
+                <StartButton id={e.id} />
               </div>
             </Card>
           ))}

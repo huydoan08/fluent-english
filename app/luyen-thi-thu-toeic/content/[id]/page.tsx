@@ -1,197 +1,21 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
-
-const questions = [
-  { id: 1, question: `Question 73: What type of company does the speaker work for?`, options: ['A: A technology consulting firm', 'B: A landscaping company', 'C: A construction company', 'D: A law firm'], correctAnswer: 'A' },
-  { id: 2, question: `Question 74: What good news does the speaker share about the company?`, options: ['A: It won a city contract.', 'B: It will expand its headquarters.', 'C: It has won an industry award.', 'D: Its profits have increased.'], correctAnswer: 'C' },
-  { id: 3, question: `Question 75: What does the speaker say he will do later this week?`, options: ['A: Purchase new equipment', 'B: Update some software', 'C: Contact an advertising agency', 'D: Post some job openings'], correctAnswer: 'D' },
-
-  { id: 4, question: `Question 76: Where does the talk most likely take place?`, options: ['A: At a press conference', 'B: At a trade show', 'C: At an awards ceremony', 'D: At a sports competition'], correctAnswer: 'B' },
-  { id: 5, question: `Question 77: What aspect of a product does the speaker mention?`, options: ['A: Its improved graphics', 'B: Its fast download speeds', 'C: Its smartphone compatibility', 'D: Its high-quality audio'], correctAnswer: 'C' },
-  { id: 6, question: `Question 78: What does the speaker say the listeners can do after the talk?`, options: ['A: Start a free trial', 'B: Speak to a representative', 'C: Enjoy some refreshments', 'D: Enter a contest'], correctAnswer: 'B' },
-
-  { id: 7, question: `Question 79: Where is the meeting most likely taking place?`, options: ['A: At a farm', 'B: At a cafeteria', 'C: At a warehouse', 'D: At a grocery store'], correctAnswer: 'C' },
-  { id: 8, question: `Question 80: What does the speaker say is required?`, options: ['A: Requesting vacation time in advance', 'B: Updating employee contact information', 'C: Wearing the appropriate clothing', 'D: Completing some employee training'], correctAnswer: 'D' },
-  { id: 9, question: `Question 81: What did the speaker find out about this week?`, options: ['A: Business has been slower than usual.', 'B: Inventory has been running low.', 'C: Employees have been missing meetings.', 'D: Workers have been taking extended breaks.'], correctAnswer: 'B' },
-
-  { id: 10, question: `Question 82: What type of business is coming to an area?`, options: ['A: A research facility', 'B: A delivery service', 'C: A computer repair company', 'D: An electronics manufacturer'], correctAnswer: 'B' },
-  { id: 11, question: `Question 83: Why was a specific location chosen?`, options: ['A: It is near public transportation.', 'B: It is affordable.', 'C: It is near an educational institution.', 'D: It will attract a lot of customers.'], correctAnswer: 'A' },
-  { id: 12, question: `Question 84: How can the listeners find out more information?`, options: ['A: By attending an event', 'B: By visiting a Web site', 'C: By calling a city official', 'D: By subscribing to a newsletter'], correctAnswer: 'B' },
-
-  { id: 13, question: `Question 85: What is the broadcast mainly about?`, options: ['A: The announcement of a sporting competition', 'B: The completion of a construction project', 'C: The closing of a local business', 'D: The election of a city official'], correctAnswer: 'A' },
-  { id: 14, question: `Question 86: According to the speaker, which industry will benefit from an event?`, options: ['A: Technology', 'B: Manufacturing', 'C: Fishing', 'D: Tourism'], correctAnswer: 'D' },
-  { id: 15, question: `Question 87: Why does the speaker say, “that’s less than taking the ferry”?`, options: ['A: To show surprise', 'B: To stress a disadvantage', 'C: To acknowledge a mistake', 'D: To offer a counterargument'], correctAnswer: 'A' },
-
-  { id: 16, question: `Question 88: What kind of business does the speaker work for?`, options: ['A: A publicity agency', 'B: A plastics manufacturer', 'C: An accounting firm', 'D: A grocery store'], correctAnswer: 'C' },
-  { id: 17, question: `Question 89: What does the speaker mainly discuss?`, options: ['A: Upgrading the bookkeeping system', 'B: Preparing for a new regulation', 'C: Revising a company logo', 'D: Increasing online advertising'], correctAnswer: 'B' },
-  { id: 18, question: `Question 90: What does the speaker expect one of the listeners to do?`, options: ['A: Contact another department', 'B: Draft a timeline', 'C: Find a new supplier', 'D: Design a showroom layout'], correctAnswer: 'A' },
-
-  { id: 19, question: `Question 91: Who most likely is the speaker?`, options: ['A: A journalist', 'B: An accountant', 'C: A restaurant owner', 'D: A customer service representative'], correctAnswer: 'D' },
-  { id: 20, question: `Question 92: What does the speaker say she needs the listener to do?`, options: ['A: Contact some clients', 'B: Check an inventory list', 'C: Create a marketing campaign', 'D: Scan some information'], correctAnswer: 'A' },
-  { id: 21, question: `Question 93: Why does the speaker say, “we’re offering a workshop on that topic next month”?`, options: ['A: To reject an invitation', 'B: To explain a survey', 'C: To make a recommendation', 'D: To ask for help'], correctAnswer: 'C' },
-
-  { id: 22, question: `Question 94: What is the speaker discussing?`, options: ['A: Updating a database', 'B: Hiring more staff', 'C: Revising safety guidelines', 'D: Purchasing supplies'], correctAnswer: 'C' },
-  { id: 23, question: `Question 95: Where does the speaker most likely work?`, options: ['A: At a warehouse', 'B: At a fitness center', 'C: At a home-improvement store', 'D: At a cleaning service'], correctAnswer: 'A' },
-  { id: 24, question: `Question 96: What does the speaker imply when he says, “Tunji, I think you have a free hour tomorrow morning”?`, options: ['A: Tunji should complete the task.', 'B: Tunji can attend the client meeting.', 'C: Tunji’s schedule needs to be corrected.', 'D: Tunji can leave work early.'], correctAnswer: 'A' },
-
-  { id: 25, question: `Question 97: Where does the speaker work?`, options: ['A: At a community center', 'B: At a car repair shop', 'C: At a supermarket', 'D: At a department store'], correctAnswer: 'D' },
-  { id: 26, question: `Question 98: Look at the graphic. How much will the speaker pay for today’s order?`, options: ['A: $15', 'B: $17', 'C: $18', 'D: $14'], correctAnswer: 'B' },
-  { id: 27, question: `Question 99: What does the speaker want to install?`, options: ['A: A beverage vending machine', 'B: An air-conditioning unit', 'C: Some security cameras', 'D: Some carpeting'], correctAnswer: 'C' },
-
-  { id: 28, question: `Question 100: Look at the graphic. Who is the speaker?`, options: ['A: Takanori Kimura', 'B: Ozan Demir', 'C: Robert Wilson', 'D: Ivan Stepanov'], correctAnswer: 'A' },
-  { id: 29, question: `Question 101: How is the company trying to increase participation in a program?`, options: ['A: By offering free snacks', 'B: By providing paid time off', 'C: By providing a salary increase', 'D: By giving away a free trip'], correctAnswer: 'B' },
-  { id: 30, question: `Question 102: What will the speaker do next?`, options: ['A: Introduce some committee members', 'B: Review some sales figures', 'C: Pass out tickets to an upcoming event', 'D: Give examples of employee goals'], correctAnswer: 'A' },
-];
-const AUDIO_URL = '/toeic/TOEIC-Listening-TEST-17-Part-4.mp3';
+import { Assignment } from '@/components/assignment';
+import { exams } from '@/resource/exams';
+import { useParams } from 'next/navigation';
 
 export default function TestPage() {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [showModal, setShowModal] = useState(false);
-  const [reviewMode, setReviewMode] = useState(false);
-
-  const questionRefs = useRef<Record<number, HTMLDivElement | null>>({});
-
-  const handleSelect = (qId: number, option: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [qId]: option,
-    }));
-  };
-
-  const scrollToQuestion = (id: number) => {
-    questionRefs.current[id]?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const total = questions.length;
-  const answered = Object.keys(answers).length;
-  const isComplete = answered === total;
-
-  const score = questions.reduce((acc, q) => {
-    if (answers[q.id]?.startsWith(q.correctAnswer)) return acc + 1;
-    return acc;
-  }, 0);
-
+  const params = useParams();
+  const id = params.id as string;
+  const exam = exams.find((e) => e.id === id);
+  if (!exam) {
+    return <div className="p-10 text-center">Không tìm thấy đề</div>;
+  }
   return (
     <main className="min-h-screen bg-[#f5f6f8]">
-      {/* HEADER */}
-      <div className="bg-white border-b">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between">
-          <Link href="/" className="flex items-center gap-2 text-gray-600 text-sm">
-            <ChevronLeft size={18} />
-            Quay lại
-          </Link>
-          <h1 className="text-[#2196f3] font-medium">
-            TOEIC Listening Test
-          </h1>
-          <div>{answered}/{total}</div>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto grid grid-cols-12 gap-6 p-6">
-        {/* LEFT */}
-        <div className="col-span-9 space-y-6">
-          <audio controls src={AUDIO_URL} className="w-full" />
-
-          {questions.map((q) => {
-            const selected = answers[q.id];
-
-            return (
-              <div
-                key={q.id}
-                ref={(el) => {
-                  questionRefs.current[q.id] = el;
-                }}
-                className="bg-white p-6 rounded-xl border"
-              >
-                <p className="mb-4 font-medium">{q.question}</p>
-
-                {q.options.map((opt) => {
-                  const isCorrect = opt.startsWith(q.correctAnswer);
-                  const isSelected = selected === opt;
-
-                  let style = 'bg-white';
-
-                  if (reviewMode) {
-                    if (isCorrect) style = 'bg-green-100 border-green-500';
-                    else if (isSelected) style = 'bg-red-100 border-red-500';
-                  } else if (isSelected) {
-                    style = 'bg-blue-50 border-blue-500';
-                  }
-
-                  return (
-                    <label
-                      key={opt}
-                      className={`block p-3 border rounded mb-2 cursor-pointer ${style}`}
-                    >
-                      <input
-                        type="radio"
-                        name={`q${q.id}`}
-                        checked={isSelected}
-                        onChange={() => handleSelect(q.id, opt)}
-                      />
-                      <span className="ml-2">{opt}</span>
-                    </label>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* RIGHT */}
-        <div className="col-span-3">
-          <div className="bg-white p-4 rounded-xl border sticky top-6">
-            <div className="grid grid-cols-5 gap-2">
-              {questions.map((q) => (
-                <div
-                  key={q.id}
-                  onClick={() => scrollToQuestion(q.id)}
-                  className={`h-10 flex items-center justify-center border rounded cursor-pointer
-                    ${answers[q.id] ? 'bg-green-500 text-white' : ''}
-                  `}
-                >
-                  {q.id}
-                </div>
-              ))}
-            </div>
-
-            <button
-              disabled={!isComplete}
-              onClick={() => setShowModal(true)}
-              className={`w-full mt-4 py-3 rounded text-white
-                ${isComplete ? 'bg-blue-500' : 'bg-gray-400 cursor-not-allowed'}
-              `}
-            >
-              Nộp bài
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* MODAL */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl w-80 text-center">
-            <h2 className="text-lg font-bold mb-4">Kết quả</h2>
-            <p className="mb-4">
-              {score} / {total} câu đúng
-            </p>
-
-            <button
-              onClick={() => {
-                setReviewMode(true);
-                setShowModal(false);
-              }}
-              className="bg-green-500 text-white px-4 py-2 rounded"
-            >
-              Xem lại đáp án
-            </button>
-          </div>
-        </div>
-      )}
+      <main className="min-h-screen bg-[#f5f6f8]">
+        <Assignment questions={exam.questions} AUDIO_URL={exam.audio} />
+      </main>
     </main>
   );
 }
