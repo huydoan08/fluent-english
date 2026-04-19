@@ -9,7 +9,7 @@ const _geist = Geist({ subsets: ['latin'] })
 const _geistMono = Geist_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Fluent-English - Học Tiếng Anh Online',
+  title: 'Đề thi trắc nghiệm - Luyện thi trắc nghiệm - Thi thử trắc nghiệm',
   description:
     'Học tiếng Anh trực tuyến với giáo viên bản xứ. Khóa học IELTS, giao tiếp, luyện thi miễn phí.',
   generator: 'v0.app',
