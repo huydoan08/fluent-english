@@ -21,39 +21,18 @@ interface Exam {
 export function FeatureCards() {
   const exams: Exam[] = [
     {
-      icon: <Languages className="w-10 h-10" />,
-      title: 'Luyện thi TOPIK',
-      description:
-        'Dành cho người học tiếng Hàn, chinh phục các cấp độ từ sơ cấp đến cao cấp.',
-      link: '/topik',
-    },
-    {
       icon: <Globe className="w-10 h-10" />,
       title: 'Luyện thi IELTS',
       description:
         'Chứng chỉ tiếng Anh hàng đầu cho du học, làm việc và định cư quốc tế.',
-      link: '/ielts',
-    },
-    {
-      icon: <GraduationCap className="w-10 h-10" />,
-      title: 'Luyện thi APTIS',
-      description:
-        'Bài thi đánh giá năng lực tiếng Anh linh hoạt và hiện đại của Hội đồng Anh.',
-      link: '/aptis',
-    },
-    {
-      icon: <Landmark className="w-10 h-10" />,
-      title: 'Luyện thi HSK',
-      description:
-        'Kỳ thi năng lực Hán ngữ quốc tế, thước đo trình độ tiếng Trung của bạn.',
-      link: '/hsk',
+      link: '/luyen-thi-thu-ielts',
     },
     {
       icon: <Briefcase className="w-10 h-10" />,
       title: 'Luyện thi TOEIC',
       description:
         'Chứng chỉ tiếng Anh giao tiếp quốc tế, tập trung vào môi trường công sở.',
-      link: '/toeic',
+      link: '/luyen-thi-thu-toeic',
     },
   ];
 

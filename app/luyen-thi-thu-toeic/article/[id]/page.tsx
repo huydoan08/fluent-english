@@ -3,11 +3,11 @@ import { Users, Star } from "lucide-react";
 
 export default function TOEICIntroPage() {
   return (
-    <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-sm border p-10 text-center">
+    <main className="min-h-screen bg-gray-100 flex items-center justify-center mb-20">
+      <div className="bg-white w-full max-w-4xl h-150 rounded-2xl shadow-sm border p-10 text-center">
         
         {/* TITLE */}
-        <h1 className="text-2xl font-semibold text-blue-600 mb-6">
+        <h1 className="text-2xl font-semibold text-blue-600 mb-6 mt-30">
           Test IELTS listening - Đề 2
         </h1>
 
