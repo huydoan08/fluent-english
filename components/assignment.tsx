@@ -54,9 +54,9 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-12 gap-6 p-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-12 gap-6 p-6 ">
         {/* LEFT */}
-        <div className="col-span-9 space-y-6">
+        <div className="col-span-9 space-y-6 ">
           <audio controls src={AUDIO_URL} className="w-full" />
 
           {questions.map((q) => {
@@ -107,7 +107,7 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
 
         {/* RIGHT */}
         <div className="col-span-3">
-          <div className="bg-white p-4 rounded-xl border sticky top-6">
+          <div className="bg-white p-4 rounded-xl border sticky top-22">
             <div className="grid grid-cols-5 gap-2">
               {questions.map((q) => (
                 <div
