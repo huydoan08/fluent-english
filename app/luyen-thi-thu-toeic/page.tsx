@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { ChevronDown, Clock, ListChecks, Users, Star } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import StartButton from '@/components/ui/start-button';
 
 type Exam = {
@@ -46,6 +46,11 @@ export default function ToeicExamListUI() {
   const [activeTag, setActiveTag] = useState<'All' | 'Listening' | 'Reading'>('All');
   const [examSet, setExamSet] = useState<'Tất cả các đề' | 'Đề Listening' | 'Đề Reading'>('Tất cả các đề');
   const [examPart, setExamPart] = useState<'Tất cả các Part' | 'Part 1' | 'Part 2' | 'Part 3'>('Tất cả các Part');
+  const router = useRouter();
+
+  const handleClick = (id: string) => {
+    router.push(`/luyen-thi-thu-toeic/article/${id}`);
+  };
 
   const exams: Exam[] = useMemo(
     () => [
@@ -272,7 +277,8 @@ export default function ToeicExamListUI() {
           {filtered.map((e) => (
             <Card
               key={e.id}
-              className="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+              className="cursor-pointer rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+              onClick={() => handleClick(e.id)}
             >
               <div className="p-6">
                 <div className="flex items-center">
