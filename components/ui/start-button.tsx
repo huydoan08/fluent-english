@@ -16,7 +16,7 @@ export default function StartButton({ id }: { id: string }) {
     // delay để animation chạy
     setTimeout(() => {
       router.push(`/luyen-thi-thu-toeic/article/${id}`);
-    }, 800); // 600–1000ms là đẹp
+    }, 10);
   };
 
   return (
