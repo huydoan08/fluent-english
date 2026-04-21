@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import StartButton from "@/components/ui/start-button";
 
 type Exam = {
-  id: string;
+  id: number | string;
   tag: "Listening" | "Reading";
   title: string; // tên hiển thị
   rating: number; // ví dụ 4.6
@@ -54,14 +54,14 @@ export default function ToeicExamListUI() {
   >("Tất cả các Part");
   const router = useRouter();
 
-  const handleClick = (id: string) => {
+  const handleClick = (id: number | string) => {
     router.push(`/luyen-thi-thu-toeic/article/${id}`);
   };
 
   const exams: Exam[] = useMemo(
     () => [
       {
-        id: "1",
+        id: 1,
         tag: "Listening",
         title: "Thi thử TOEIC online Đề 1 - Listening Part 1",
         rating: 4.6,
@@ -71,7 +71,7 @@ export default function ToeicExamListUI() {
         attemptText: "433 lượt làm",
       },
       {
-        id: "2",
+        id: 2,
         tag: "Reading",
         title: "Thi thử TOEIC online Đề 1 - Reading Part 2",
         rating: 4.7,
@@ -79,46 +79,6 @@ export default function ToeicExamListUI() {
         durationText: "35 Phút",
         questionCountText: "46 Câu hỏi",
         attemptText: "566 lượt làm",
-      },
-      {
-        id: "3",
-        tag: "Reading",
-        title: "Thi thử TOEIC online Đề 1 - Reading Part 2",
-        rating: 4.9,
-        ratingCount: 211,
-        durationText: "35 Phút",
-        questionCountText: "29 Câu hỏi",
-        attemptText: "479 lượt làm",
-      },
-      {
-        id: "4",
-        tag: "Reading",
-        title: "Thi thử TOEIC online Đề 1 - Reading Part 3",
-        rating: 4.5,
-        ratingCount: 297,
-        durationText: "35 Phút",
-        questionCountText: "29 Câu hỏi",
-        attemptText: "652 lượt làm",
-      },
-      {
-        id: "5",
-        tag: "Listening",
-        title: "Thi thử TOEIC online Đề 1 - Listening Part 2",
-        rating: 4.5,
-        ratingCount: 217,
-        durationText: "30 Phút",
-        questionCountText: "39 Câu hỏi",
-        attemptText: "455 lượt làm",
-      },
-      {
-        id: "6",
-        tag: "Listening",
-        title: "Thi thử TOEIC online Đề 1 - Listening Part 3",
-        rating: 4.8,
-        ratingCount: 166,
-        durationText: "30 Phút",
-        questionCountText: "30 Câu hỏi",
-        attemptText: "412 lượt làm",
       },
     ],
     [],

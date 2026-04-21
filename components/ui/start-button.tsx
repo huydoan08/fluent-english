@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-export default function StartButton({ id }: { id: string }) {
+export default function StartButton({ id }: { id: number | string }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 

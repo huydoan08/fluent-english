@@ -1,7 +1,12 @@
+'use client';
+
 import Link from "next/link";
-import { Users, Star } from "lucide-react";
+import { Users } from "lucide-react";
+import { useParams } from 'next/navigation';
 
 export default function TOEICIntroPage() {
+    const params = useParams();
+    const id = params.id as string;
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center mb-20">
       <div className="bg-white w-full max-w-4xl h-150 rounded-2xl shadow-sm border p-10 text-center">
@@ -39,7 +44,7 @@ export default function TOEICIntroPage() {
         </p>
 
         {/* BUTTON */}
-        <Link href="/luyen-thi-thu-toeic/content/1">
+        <Link href={`/luyen-thi-thu-toeic/content/${id}`} className="inline-block">
           <button className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-medium">
             Bắt đầu làm bài
           </button>

@@ -43,6 +43,7 @@ export default function TestPage() {
       <Assignment
         questions={exam.questions}
         AUDIO_URL={exam.audio}
+        part={exam.part}
       />
     </main>
   );

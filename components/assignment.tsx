@@ -1,17 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
+import { useState, useRef } from "react";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import Part4Card from "./card-part4";
+import Part1Card from "./card-part1";
 
 interface Question {
   id: number;
   question: string;
   options: string[];
   correctAnswer: string;
+  image?: string;
+  part?: number;
 }
 
-export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AUDIO_URL: string }) {
+export function Assignment({
+  questions,
+  AUDIO_URL,
+  part
+}: {
+  questions: Question[];
+  AUDIO_URL: string;
+  part: number;
+}) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [showModal, setShowModal] = useState(false);
   const [reviewMode, setReviewMode] = useState(false);
@@ -26,7 +38,7 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
   };
 
   const scrollToQuestion = (id: number) => {
-    questionRefs.current[id]?.scrollIntoView({ behavior: 'smooth' });
+    questionRefs.current[id]?.scrollIntoView({ behavior: "smooth" });
   };
 
   const total = questions.length;
@@ -43,14 +55,17 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
       {/* HEADER */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between">
-          <Link href="/" className="flex items-center gap-2 text-gray-600 text-sm">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-gray-600 text-sm"
+          >
             <ChevronLeft size={18} />
             Quay lại
           </Link>
-          <h1 className="text-[#2196f3] font-medium">
-            TOEIC Listening Test
-          </h1>
-          <div>{answered}/{total}</div>
+          <h1 className="text-[#2196f3] font-medium">TOEIC Listening Test</h1>
+          <div>
+            {answered}/{total}
+          </div>
         </div>
       </div>
 
@@ -58,10 +73,12 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
         {/* LEFT */}
         <div className="col-span-9 space-y-6 ">
           <audio controls src={AUDIO_URL} className="w-full" />
+          {part === 4 && <Part4Card />}
+          {part === 1 && <Part1Card />}
 
           {questions.map((q) => {
             const selected = answers[q.id];
-
+            
             return (
               <div
                 key={q.id}
@@ -70,19 +87,28 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
                 }}
                 className="bg-white p-6 rounded-xl border"
               >
+                {q.image && (
+                  <div className="mb-4">
+                    <img
+                      src={q.image}
+                      alt="question"
+                      className="max-w-150 max-h-64 object-cover rounded-lg border"
+                    />
+                  </div>
+                )} 
                 <p className="mb-4 font-medium">{q.question}</p>
 
                 {q.options.map((opt) => {
                   const isCorrect = opt.startsWith(q.correctAnswer);
                   const isSelected = selected === opt;
 
-                  let style = 'bg-white';
+                  let style = "bg-white";
 
                   if (reviewMode) {
-                    if (isCorrect) style = 'bg-green-100 border-green-500';
-                    else if (isSelected) style = 'bg-red-100 border-red-500';
+                    if (isCorrect) style = "bg-green-100 border-green-500";
+                    else if (isSelected) style = "bg-red-100 border-red-500";
                   } else if (isSelected) {
-                    style = 'bg-blue-50 border-blue-500';
+                    style = "bg-blue-50 border-blue-500";
                   }
 
                   return (
@@ -114,7 +140,7 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
                   key={q.id}
                   onClick={() => scrollToQuestion(q.id)}
                   className={`h-10 flex items-center justify-center border rounded cursor-pointer
-                    ${answers[q.id] ? 'bg-green-500 text-white' : ''}
+                    ${answers[q.id] ? "bg-green-500 text-white" : ""}
                   `}
                 >
                   {q.id}
@@ -126,7 +152,7 @@ export function Assignment({ questions, AUDIO_URL }: { questions: Question[]; AU
               disabled={!isComplete}
               onClick={() => setShowModal(true)}
               className={`w-full mt-4 py-3 rounded text-white
-                ${isComplete ? 'bg-blue-500' : 'bg-gray-400 cursor-not-allowed'}
+                ${isComplete ? "bg-blue-500" : "bg-gray-400 cursor-not-allowed"}
               `}
             >
               Nộp bài
