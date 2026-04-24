@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { Assignment } from '@/components/assignment';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Assignment } from "@/components/assignment";
+import Loading from "@/components/loading";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function TestPage() {
   const params = useParams();
@@ -31,7 +32,11 @@ export default function TestPage() {
   }, []);
 
   if (loading) {
-    return <div className="p-10 text-center">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <Loading />
+      </div>
+    );
   }
 
   if (!exam) {

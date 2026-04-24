@@ -1,7 +1,7 @@
 const exams = [
   {
-    id: 1,
-    title: "TOEIC Test 17 - Part 4",
+    id: 2,
+    title: "TOEIC Test 1 - Part 4",
     audio: "/toeic/TOEIC-Listening-TEST-17-Part-4.mp3",
     part: 4,
     questions: [
@@ -342,8 +342,8 @@ const exams = [
     ],
   },
   {
-    id: 2,
-    title: "TOEIC Test 17 - Part 1",
+    id: 1,
+    title: "TOEIC Test 1 - Part 1",
     audio: "/toeic/LC-TOIEC-de-1-P.1.mp3",
     part: 1,
     questions: [

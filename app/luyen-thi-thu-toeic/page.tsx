@@ -9,12 +9,12 @@ import StartButton from "@/components/ui/start-button";
 type Exam = {
   id: number | string;
   tag: "Listening" | "Reading";
-  title: string; // tên hiển thị
-  rating: number; // ví dụ 4.6
-  ratingCount: number; // ví dụ 259
-  durationText: string; // "35 Phút"
-  questionCountText: string; // "31 Câu hỏi"
-  attemptText: string; // "433 lượt làm"
+  title: string;
+  rating: number;
+  ratingCount: number;
+  durationText: string;
+  questionCountText: string;
+  attemptText: string;
 };
 
 const Pill = ({
@@ -46,12 +46,16 @@ export default function ToeicExamListUI() {
   const [activeTag, setActiveTag] = useState<"All" | "Listening" | "Reading">(
     "All",
   );
-  const [examSet, setExamSet] = useState<
-    "Tất cả các đề" | "Đề Listening" | "Đề Reading"
-  >("Tất cả các đề");
+
+  // ✅ đổi value nhưng không ảnh hưởng UI
+  const [examSet, setExamSet] = useState<"Tất cả" | "Đề 1" | "Đề 2">("Tất cả");
+
   const [examPart, setExamPart] = useState<
     "Tất cả các Part" | "Part 1" | "Part 2" | "Part 3"
   >("Tất cả các Part");
+
+  const [search, setSearch] = useState("");
+
   const router = useRouter();
 
   const handleClick = (id: number | string) => {
@@ -63,7 +67,7 @@ export default function ToeicExamListUI() {
       {
         id: 1,
         tag: "Listening",
-        title: "Thi thử TOEIC online Đề 1 - Listening Part 1",
+        title: "Thi thử TOEIC Online Đề 1 Listening Part 1 + Part 2",
         rating: 4.6,
         ratingCount: 259,
         durationText: "35 Phút",
@@ -73,7 +77,7 @@ export default function ToeicExamListUI() {
       {
         id: 2,
         tag: "Reading",
-        title: "Thi thử TOEIC online Đề 1 - Reading Part 2",
+        title: "Thi thử TOEIC Online Đề 1 Listening Part 4",
         rating: 4.7,
         ratingCount: 165,
         durationText: "35 Phút",
@@ -84,13 +88,42 @@ export default function ToeicExamListUI() {
     [],
   );
 
+  const getSetFromTitle = (title: string) => {
+    const match = title.match(/Đề\s*(\d+)/i);
+    return match ? `Đề ${match[1]}` : null;
+  };
+
+  const getPartFromTitle = (title: string) => {
+    const match = title.match(/Part\s*(\d+)/i);
+    return match ? `Part ${match[1]}` : null;
+  };
+
   const filtered = useMemo(() => {
     return exams.filter((e) => {
       if (activeTag !== "All" && e.tag !== activeTag) return false;
-      // examSet/examPart: demo, nếu bạn có field tương ứng thì lọc theo dữ liệu thật
+
+      // SET (Đề 1, Đề 2...)
+      if (examSet !== "Tất cả") {
+        const set = getSetFromTitle(e.title);
+        if (set !== examSet) return false;
+      }
+
+      // PART
+      if (examPart !== "Tất cả các Part") {
+        const part = getPartFromTitle(e.title);
+        if (part !== examPart) return false;
+      }
+
+      // SEARCH
+      if (
+        search.trim() &&
+        !e.title.toLowerCase().includes(search.toLowerCase())
+      )
+        return false;
+
       return true;
     });
-  }, [activeTag, exams, examSet, examPart]);
+  }, [activeTag, examSet, examPart, search, exams]);
 
   return (
     <div className="w-full bg-white">
@@ -189,8 +222,8 @@ export default function ToeicExamListUI() {
             </span>
           </div>
         </div>
-
-        {/* FILTER ROW */}
+      </section>
+      <section className="max-w-6xl mx-auto px-4 pb-14">
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Pill
             active={activeTag === "All"}
@@ -211,30 +244,25 @@ export default function ToeicExamListUI() {
             Reading
           </Pill>
 
-          {/* demo selects */}
           <div className="flex flex-wrap items-center gap-3 mt-2 md:mt-0">
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600">
-              Lọc theo đề:
-            </label>
+            {/* SELECT ĐỀ (UI giữ nguyên text) */}
             <div className="relative">
               <select
                 value={examSet}
                 onChange={(e) => setExamSet(e.target.value as any)}
                 className="appearance-none bg-white border border-gray-200 rounded-full px-4 py-2 pr-9 text-sm text-gray-700 shadow-sm"
               >
-                <option>Tất cả các đề</option>
-                <option>Đề Listening</option>
-                <option>Đề Reading</option>
+                <option>Tất cả</option>
+                <option>Đề 1</option>
+                <option>Đề 2</option>
               </select>
               <ChevronDown
-                size={16}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
               />
             </div>
 
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600">
-              Lọc theo Part:
-            </label>
+            {/* PART */}
             <div className="relative">
               <select
                 value={examPart}
@@ -247,12 +275,15 @@ export default function ToeicExamListUI() {
                 <option>Part 3</option>
               </select>
               <ChevronDown
-                size={16}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={16}
               />
             </div>
 
+            {/* SEARCH */}
             <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Tìm kiếm theo tên đề thi.."
               className="bg-white border border-gray-200 rounded-full px-5 py-2 text-sm text-gray-700 shadow-sm w-full sm:w-56"
             />
