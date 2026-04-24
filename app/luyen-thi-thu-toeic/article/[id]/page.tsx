@@ -78,12 +78,12 @@ export default function TOEICIntroPage() {
         </p>
 
         <p className="font-semibold text-gray-700 mb-6">
-          Thời gian làm bài: <span className="font-normal">60 phút.</span>
+          Thời gian làm bài: <span className="font-normal">{exam.time}</span>
         </p>
 
         {/* BUTTON */}
         <Link href={`/luyen-thi-thu-toeic/content/${id}`} className="inline-block">
-          <button className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-medium">
+          <button className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded-lg font-medium cursor-pointer">
             Bắt đầu làm bài
           </button>
         </Link>

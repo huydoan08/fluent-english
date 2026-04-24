@@ -1,9 +1,359 @@
+
 const exams = [
   {
+    id: 1,
+    title: "TOEIC Đề 1 - Part 1 + Part 2",
+    audio: "/toeic/LC-TOIEC-de-1-P.1.mp3",
+    part: 1,
+    time: "40 phút",
+    questions: [
+      {
+        id: 1,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/Screenshot-2025-08-13-121108.png",
+        question: "Question 1:",
+        options: [
+          "A. She's eating in a picnic area.",
+          "B. She's waiting in line at a food truck.",
+          "C. She's wiping off a bench.",
+          "D. She's throwing away a plate.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 2,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/2.png",
+        question: "Question 2:",
+        options: [
+          "A. The man is brushing snow off the roof of a car.",
+          "B. The man is standing in the snow beside a car.",
+          "C. The man is shoveling snow from a walkway.",
+          "D. The man is running through the snow.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 3,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/3.png",
+        question: "Question 3:",
+        options: [
+          "A. Some workers are hanging art in a gallery.",
+          "B. Two of the people are having a conversation.",
+          "C. One of the men is rearranging cushions on a sofa.",
+          "D. One of the men is painting a picture.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 4,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/4.png",
+        question: "Question 4:",
+        options: [
+          "A. Vehicles are entering a parking garage.",
+          "B. Clothes hangers are scattered on the ground.",
+          "C. Empty racks are lined up next to a building.",
+          "D. Clothing is being displayed under a tent.",
+        ],
+        correctAnswer: "D",
+      },
+      {
+        id: 5,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/5.png",
+        question: "Question 5:",
+        options: [
+          "A. Potted plants have been suspended from a ceiling.",
+          "B. Chairs have been stacked in front of an entryway.",
+          "C. A computer station has been set up on a desk.",
+          "D. A rug has been rolled up against a wall.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 6,
+        image:
+          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/6.png",
+        question: "Question 6:",
+        options: [
+          "A. One of the men is sweeping a patio.",
+          "B. One of the men is replacing some flooring.",
+          "C. A door has been taken off its frame.",
+          "D. A light fixture has been left on the ground.",
+        ],
+        correctAnswer: "A",
+      },
+
+      // ===== PART 2 =====
+      {
+        id: 7,
+        question: "Question 7: How old is this building?",
+        options: [
+          "A. To ship some materials.",
+          "B. About ten years old.",
+          "C. Company offices, I think.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 8,
+        question: "Question 8: Can you come to my jazz performance tonight?",
+        options: [
+          "A. I'm sorry I was late for the meeting.",
+          "B. Mostly just local musicians.",
+          "C. Sure, I'll be there!",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 9,
+        question: "Question 9: Which apartment submitted a work order?",
+        options: [
+          "A. It's what you did for a living.",
+          "B. Submit your assignment here.",
+          "C. It came from the tenants in B23.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 10,
+        question:
+          "Question 10: Will you contact the vendor about changing our delivery date?",
+        options: [
+          "A. Of course, I'll take care of it.",
+          "B. An e-mail receipt.",
+          "C. Could I get change for a dollar?",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 11,
+        question: "Question 11: Why was the maintenance worker here?",
+        options: [
+          "A. No, he didn't.",
+          "B. From three o'clock until four.",
+          "C. Because a light needed to be fixed.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 12,
+        question: "Question 12: Did management make a hiring decision yet?",
+        options: [
+          "A. Put it on the highest shelf.",
+          "B. The personnel department.",
+          "C. Yes, they chose Jacob Borgman.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 13,
+        question:
+          "Question 13: Do you want to eat here in our cafeteria or go out?",
+        options: [
+          "A. He went there yesterday.",
+          "B. Well, maybe a sandwich.",
+          "C. Let's eat here.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 14,
+        question:
+          "Question 14: Didn't you e-mail the employment contract to Mr. Patel yesterday?",
+        options: [
+          "A. Yes, I would agree.",
+          "B. No, I'll send it now.",
+          "C. Check the employee manual.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 15,
+        question: "Question 15: Our division's picnic is this Saturday, right?",
+        options: [
+          "A. There's a lot of rain in the forecast.",
+          "B. Sure, I like salad.",
+          "C. At the end of this corridor.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 16,
+        question: "Question 16: Would you like coffee or tea?",
+        options: [
+          "A. Just water, please.",
+          "B. For a few dollars more.",
+          "C. A fifteen-minute break.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 17,
+        question: "Question 17: We achieved our sales targets this month.",
+        options: [
+          "A. That's excellent news!",
+          "B. A few times a day.",
+          "C. To the end of April.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 18,
+        question: "Question 18: How often do you travel for your job?",
+        options: [
+          "A. It turned out well.",
+          "B. Yes, I did find one.",
+          "C. About once a month.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 19,
+        question: "Question 19: We should hike the Wildflower Trail today.",
+        options: [
+          "A. This seat is available.",
+          "B. I didn't bring boots.",
+          "C. At the visitors' center.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 20,
+        question: "Question 20: You've booked a hotel in London, haven't you?",
+        options: [
+          "A. Very enjoyable, thanks.",
+          "B. He usually takes the train.",
+          "C. Yes, I made a reservation last week.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 21,
+        question:
+          "Question 21: Are there any tickets left for tonight's concert?",
+        options: [
+          "A. It's sold out.",
+          "B. He's a concert violinist.",
+          "C. They already left.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 22,
+        question: "Question 22: Haven't you used this software before?",
+        options: [
+          "A. Thanks, but I can't swim.",
+          "B. I haven't had the chance.",
+          "C. About 40 dollars.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 23,
+        question: "Question 23: When is the new blender going to be released?",
+        options: [
+          "A. Only with fruits and vegetables.",
+          "B. In the kitchen cabinet.",
+          "C. The prototype is still being tested.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 24,
+        question: "Question 24: Who's picking up our clients at the airport?",
+        options: [
+          "A. They decided to drive.",
+          "B. At terminal 2.",
+          "C. It's a marketing position.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 25,
+        question:
+          "Question 25: Where are the red roses that came in this morning?",
+        options: [
+          "A. About three liters of water.",
+          "B. No, I didn't check out the sale.",
+          "C. I needed some for a large bouquet.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 26,
+        question:
+          "Question 26: This film has been nominated for several awards.",
+        options: [
+          "A. Why don't we go see it?",
+          "B. After the announcement.",
+          "C. He made a great speech.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 27,
+        question:
+          "Question 27: Who's interested in starting a car pool program?",
+        options: [
+          "A. Thanks, but I can't swim.",
+          "B. Clara's already organizing one.",
+          "C. It's a very interesting article.",
+        ],
+        correctAnswer: "B",
+      },
+      {
+        id: 28,
+        question: "Question 28: Where will I teach my workshop this month?",
+        options: [
+          "A. We just sent an e-mail to all instructors.",
+          "B. Five to seven months.",
+          "C. Yes, it's a beautiful building.",
+        ],
+        correctAnswer: "A",
+      },
+      {
+        id: 29,
+        question:
+          "Question 29: Why are we moving these sweaters to the back of the store?",
+        options: [
+          "A. In the new shopping mall.",
+          "B. Yes, they come in other colors.",
+          "C. Our spring merchandise is arriving soon.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 30,
+        question:
+          "Question 30: Would you be interested in working on some of these contracts?",
+        options: [
+          "A. Thank you for meeting me.",
+          "B. A contact lens prescription.",
+          "C. I have very limited time.",
+        ],
+        correctAnswer: "C",
+      },
+      {
+        id: 31,
+        question: "Question 31: What type of job are you looking for?",
+        options: [
+          "A. No, at ten A.M.",
+          "B. I really like working with computers.",
+          "C. Just a résumé is needed.",
+        ],
+        correctAnswer: "B",
+      },
+    ],
+  },
+  {
     id: 2,
-    title: "TOEIC Test 1 - Part 4",
+    title: "TOEIC Đề 1 - Part 4",
     audio: "/toeic/TOEIC-Listening-TEST-17-Part-4.mp3",
     part: 4,
+    time: "40 phút",
     questions: [
       {
         id: 1,
@@ -338,348 +688,6 @@ const exams = [
           "D: Give examples of employee goals",
         ],
         correctAnswer: "A",
-      },
-    ],
-  },
-  {
-    id: 1,
-    title: "TOEIC Test 1 - Part 1",
-    audio: "/toeic/LC-TOIEC-de-1-P.1.mp3",
-    part: 1,
-    questions: [
-      {
-        id: 1,
-        image:
-          "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/Screenshot-2025-08-13-121108.png",
-        question: "Question 1:",
-        options: [
-          "A. She's eating in a picnic area.",
-          "B. She's waiting in line at a food truck.",
-          "C. She's wiping off a bench.",
-          "D. She's throwing away a plate.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 2,
-        image: "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/2.png",
-        question: "Question 2:",
-        options: [
-          "A. The man is brushing snow off the roof of a car.",
-          "B. The man is standing in the snow beside a car.",
-          "C. The man is shoveling snow from a walkway.",
-          "D. The man is running through the snow.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 3,
-        image: "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/3.png",
-        question: "Question 3:",
-        options: [
-          "A. Some workers are hanging art in a gallery.",
-          "B. Two of the people are having a conversation.",
-          "C. One of the men is rearranging cushions on a sofa.",
-          "D. One of the men is painting a picture.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 4,
-        image: "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/4.png",
-        question: "Question 4:",
-        options: [
-          "A. Vehicles are entering a parking garage.",
-          "B. Clothes hangers are scattered on the ground.",
-          "C. Empty racks are lined up next to a building.",
-          "D. Clothing is being displayed under a tent.",
-        ],
-        correctAnswer: "D",
-      },
-      {
-        id: 5,
-        image: "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/5.png",
-        question: "Question 5:",
-        options: [
-          "A. Potted plants have been suspended from a ceiling.",
-          "B. Chairs have been stacked in front of an entryway.",
-          "C. A computer station has been set up on a desk.",
-          "D. A rug has been rolled up against a wall.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 6,
-        image: "https://lamtracnghiem.com/wp-content/uploads/THI-THU/TOEIC/6.png",
-        question: "Question 6:",
-        options: [
-          "A. One of the men is sweeping a patio.",
-          "B. One of the men is replacing some flooring.",
-          "C. A door has been taken off its frame.",
-          "D. A light fixture has been left on the ground.",
-        ],
-        correctAnswer: "A",
-      },
-
-      // ===== PART 2 =====
-      {
-        id: 7,
-        question: "Question 7: How old is this building?",
-        options: [
-          "A. To ship some materials.",
-          "B. About ten years old.",
-          "C. Company offices, I think.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 8,
-        question: "Question 8: Can you come to my jazz performance tonight?",
-        options: [
-          "A. I'm sorry I was late for the meeting.",
-          "B. Mostly just local musicians.",
-          "C. Sure, I'll be there!",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 9,
-        question: "Question 9: Which apartment submitted a work order?",
-        options: [
-          "A. It's what you did for a living.",
-          "B. Submit your assignment here.",
-          "C. It came from the tenants in B23.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 10,
-        question:
-          "Question 10: Will you contact the vendor about changing our delivery date?",
-        options: [
-          "A. Of course, I'll take care of it.",
-          "B. An e-mail receipt.",
-          "C. Could I get change for a dollar?",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 11,
-        question: "Question 11: Why was the maintenance worker here?",
-        options: [
-          "A. No, he didn't.",
-          "B. From three o'clock until four.",
-          "C. Because a light needed to be fixed.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 12,
-        question: "Question 12: Did management make a hiring decision yet?",
-        options: [
-          "A. Put it on the highest shelf.",
-          "B. The personnel department.",
-          "C. Yes, they chose Jacob Borgman.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 13,
-        question:
-          "Question 13: Do you want to eat here in our cafeteria or go out?",
-        options: [
-          "A. He went there yesterday.",
-          "B. Well, maybe a sandwich.",
-          "C. Let's eat here.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 14,
-        question:
-          "Question 14: Didn't you e-mail the employment contract to Mr. Patel yesterday?",
-        options: [
-          "A. Yes, I would agree.",
-          "B. No, I'll send it now.",
-          "C. Check the employee manual.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 15,
-        question: "Question 15: Our division's picnic is this Saturday, right?",
-        options: [
-          "A. There's a lot of rain in the forecast.",
-          "B. Sure, I like salad.",
-          "C. At the end of this corridor.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 16,
-        question: "Question 16: Would you like coffee or tea?",
-        options: [
-          "A. Just water, please.",
-          "B. For a few dollars more.",
-          "C. A fifteen-minute break.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 17,
-        question: "Question 17: We achieved our sales targets this month.",
-        options: [
-          "A. That's excellent news!",
-          "B. A few times a day.",
-          "C. To the end of April.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 18,
-        question: "Question 18: How often do you travel for your job?",
-        options: [
-          "A. It turned out well.",
-          "B. Yes, I did find one.",
-          "C. About once a month.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 19,
-        question: "Question 19: We should hike the Wildflower Trail today.",
-        options: [
-          "A. This seat is available.",
-          "B. I didn't bring boots.",
-          "C. At the visitors' center.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 20,
-        question: "Question 20: You've booked a hotel in London, haven't you?",
-        options: [
-          "A. Very enjoyable, thanks.",
-          "B. He usually takes the train.",
-          "C. Yes, I made a reservation last week.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 21,
-        question:
-          "Question 21: Are there any tickets left for tonight's concert?",
-        options: [
-          "A. It's sold out.",
-          "B. He's a concert violinist.",
-          "C. They already left.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 22,
-        question: "Question 22: Haven't you used this software before?",
-        options: [
-          "A. Thanks, but I can't swim.",
-          "B. I haven't had the chance.",
-          "C. About 40 dollars.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 23,
-        question: "Question 23: When is the new blender going to be released?",
-        options: [
-          "A. Only with fruits and vegetables.",
-          "B. In the kitchen cabinet.",
-          "C. The prototype is still being tested.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 24,
-        question: "Question 24: Who's picking up our clients at the airport?",
-        options: [
-          "A. They decided to drive.",
-          "B. At terminal 2.",
-          "C. It's a marketing position.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 25,
-        question:
-          "Question 25: Where are the red roses that came in this morning?",
-        options: [
-          "A. About three liters of water.",
-          "B. No, I didn't check out the sale.",
-          "C. I needed some for a large bouquet.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 26,
-        question:
-          "Question 26: This film has been nominated for several awards.",
-        options: [
-          "A. Why don't we go see it?",
-          "B. After the announcement.",
-          "C. He made a great speech.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 27,
-        question:
-          "Question 27: Who's interested in starting a car pool program?",
-        options: [
-          "A. Thanks, but I can't swim.",
-          "B. Clara's already organizing one.",
-          "C. It's a very interesting article.",
-        ],
-        correctAnswer: "B",
-      },
-      {
-        id: 28,
-        question: "Question 28: Where will I teach my workshop this month?",
-        options: [
-          "A. We just sent an e-mail to all instructors.",
-          "B. Five to seven months.",
-          "C. Yes, it's a beautiful building.",
-        ],
-        correctAnswer: "A",
-      },
-      {
-        id: 29,
-        question:
-          "Question 29: Why are we moving these sweaters to the back of the store?",
-        options: [
-          "A. In the new shopping mall.",
-          "B. Yes, they come in other colors.",
-          "C. Our spring merchandise is arriving soon.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 30,
-        question:
-          "Question 30: Would you be interested in working on some of these contracts?",
-        options: [
-          "A. Thank you for meeting me.",
-          "B. A contact lens prescription.",
-          "C. I have very limited time.",
-        ],
-        correctAnswer: "C",
-      },
-      {
-        id: 31,
-        question: "Question 31: What type of job are you looking for?",
-        options: [
-          "A. No, at ten A.M.",
-          "B. I really like working with computers.",
-          "C. Just a résumé is needed.",
-        ],
-        correctAnswer: "B",
       },
     ],
   },
