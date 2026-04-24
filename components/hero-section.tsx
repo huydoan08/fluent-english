@@ -25,13 +25,6 @@ export function HeroSection() {
 
   const exams: Exam[] = [
     {
-      icon: <Globe className="w-10 h-10" />,
-      title: "Luyện thi IELTS",
-      description:
-        "Chứng chỉ tiếng Anh hàng đầu cho du học, làm việc và định cư quốc tế.",
-      link: "/luyen-thi-thu-toeic",
-    },
-    {
       icon: <Briefcase className="w-10 h-10" />,
       title: "Luyện thi TOEIC",
       description:
